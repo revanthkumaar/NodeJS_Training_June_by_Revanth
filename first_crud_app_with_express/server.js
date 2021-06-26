@@ -5,12 +5,13 @@ const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient;
 const connectionString = 'mongodb+srv://revanth:revanth1994@cluster0.z9wuj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-MongoClient.connect(connectionString, (err,client) => {
-    if(err){
-        return console.error(err)
-    }
-    console.log('server created on express is now connected to mongodb')
-} )
+MongoClient.connect(connectionString, { useUnifiedTopology: true })
+.then(client => {
+    console.log('connected to database')
+})
+.catch(error => console.log(error))
+
+//MongoClient.connect('string',{config}).then().catch()
 
 serverApp.use(bodyParser.urlencoded({ extended: true }))
 
