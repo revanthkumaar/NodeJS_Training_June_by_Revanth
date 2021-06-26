@@ -1,6 +1,16 @@
 const expressImport = require('express')
 const serverApp = expressImport();
 const bodyParser = require('body-parser')
+//import the functionalities of mongo client nodejs driver 
+const MongoClient = require('mongodb').MongoClient;
+const connectionString = 'mongodb+srv://revanth:revanth1994@cluster0.z9wuj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+
+MongoClient.connect(connectionString, (err,client) => {
+    if(err){
+        return console.error(err)
+    }
+    console.log('server created on express is now connected to mongodb')
+} )
 
 serverApp.use(bodyParser.urlencoded({ extended: true }))
 
