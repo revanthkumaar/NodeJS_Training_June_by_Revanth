@@ -14,7 +14,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     serverApp.post('/userdata',function(req,res){
         console.log('inside /userdata call');
         const db = client.db('crud_database');
-        const usercollection = db.collection('users')
+        const userCollection = db.collection('users')
         console.log(req.body)
         userCollection.insertOne(req.body)
         .then(result => {
