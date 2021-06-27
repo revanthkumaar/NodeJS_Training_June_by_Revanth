@@ -11,16 +11,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
  
 
     //CREATE OPERATION
-    serverApp.post('/userdata',function(req,res){
+    serverApp.post('/userdata', async (req,res) => {
         console.log('inside /userdata call');
-        const db = client.db('crud_database');
-        const userCollection = db.collection('users')
-        console.log(req.body)
-        userCollection.insertOne(req.body)
-        .then(result => {
-            res.redirect('/')
-        })
-        .catch(error => console.error(error))
+        try{
+            const db = await client.db('crud_database');
+            const userCollection =  await db.collection('users')
+            const result = await userCollection.insertOne(req.body)
+            res.json({note: 'inserted data'})
+        }
+        catch(error){
+            console.log(error)
+        }
     })
 
     //READ OPERATION 
@@ -62,11 +63,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
 
 //MongoClient.connect('string',{config}).then().catch()
 
-
-serverApp.post('/userdata',function(req,res){
-        console.log('inside /userdata call which is outside the mongoclient');
-        
-    })
 
 
 serverApp.get('/',function(req,res){
