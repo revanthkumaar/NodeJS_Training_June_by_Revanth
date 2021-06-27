@@ -23,17 +23,40 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .catch(error => console.error(error))
     })
 
-
     //READ OPERATION 
     serverApp.get('/users',(req,res) => {
         const db = client.db('crud_database_one')
-        db.collection('users').find().toArray()
+        db.collection('users').find({$and:[{age:"25"},{place:"bombay"}]}).toArray()
         .then(results => {
             console.log(results)
             res.json({users: results})
         })
         .catch(error => console.error(error))
     })
+
+    //UPDATE OPERATION
+    //filter people with age 25 and update their name to "roshan"
+
+    serverApp.get('/user-update',(req,res)=> {
+        //callback function
+        const db = client.db('crud_database_one')
+        db.collection('users').findOneAndUpdate(
+            //finding a value and update it
+           { age:"25" } , //filter criteria
+            { //update criteria
+                $set: {
+                    place:"roshan"
+                }
+            },
+            {
+                upsert:true
+            }
+        ).then(result => res.send('updated place to'))
+        .catch(error => console.error(error))
+    })
+
+
+
 })
 .catch(error => console.log(error))
 
